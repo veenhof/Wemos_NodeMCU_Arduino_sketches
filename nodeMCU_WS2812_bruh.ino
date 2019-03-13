@@ -32,18 +32,18 @@
 
 /************ WIFI and MQTT Information (CHANGE THESE FOR YOUR SETUP) ******************/
 
-const char* ssid = "ASUS_MQTT_2.4GHZ"; //type your WIFI information inside the quotes
-const char* password = "AlL3Shi3RIsEcHt100%G3HeIm!";
+const char* ssid = ""; //type your WIFI information inside the quotes
+const char* password = "";
 const char* mqtt_server = "192.168.2.175";
 const char* mqtt_username = "openhabian";
-const char* mqtt_password = "100%Volkswagen";
+const char* mqtt_password = "";
 const int mqtt_port = 1883;
 
 /**************************** FOR OTA **************************************************/
 #define SENSORNAME "LED_LAMP
 '\" //change this to whatever you want to call your device
 
-#define OTApassword "100%Volkswagen" //the password you will need to enter to upload remotely via the ArduinoIDE
+#define OTApassword "" //the password you will need to enter to upload remotely via the ArduinoIDE
 int OTAport = 8266;
 
 
