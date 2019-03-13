@@ -34,13 +34,13 @@
 
 const char* ssid = ""; //type your WIFI information inside the quotes
 const char* password = "";
-const char* mqtt_server = "192.168.2.175";
-const char* mqtt_username = "openhabian";
+const char* mqtt_server = "";
+const char* mqtt_username = "";
 const char* mqtt_password = "";
 const int mqtt_port = 1883;
 
 /**************************** FOR OTA **************************************************/
-#define SENSORNAME "LED_LAMP
+#define SENSORNAME ""
 '\" //change this to whatever you want to call your device
 
 #define OTApassword "" //the password you will need to enter to upload remotely via the ArduinoIDE
