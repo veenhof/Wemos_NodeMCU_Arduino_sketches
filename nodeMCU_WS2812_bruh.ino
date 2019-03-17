@@ -32,26 +32,25 @@
 
 /************ WIFI and MQTT Information (CHANGE THESE FOR YOUR SETUP) ******************/
 
-const char* ssid = ""; //type your WIFI information inside the quotes
-const char* password = "";
-const char* mqtt_server = "";
-const char* mqtt_username = "";
-const char* mqtt_password = "";
+const char* ssid = "ASUS_MQTT_2.4GHZ"; //type your WIFI information inside the quotes
+const char* password = "AlL3Shi3RIsEcHt100%G3HeIm!";
+const char* mqtt_server = "192.168.2.175";
+const char* mqtt_username = "openhabian";
+const char* mqtt_password = "100%Volkswagen";
 const int mqtt_port = 1883;
 
 /**************************** FOR OTA **************************************************/
-#define SENSORNAME ""
-'\" //change this to whatever you want to call your device
+#define SENSORNAME "LED_WoonkamerLAMP" //change this to whatever you want to call your device
 
-#define OTApassword "" //the password you will need to enter to upload remotely via the ArduinoIDE
+#define OTApassword "100%Volkswagen" //the password you will need to enter to upload remotely via the ArduinoIDE
 int OTAport = 8266;
 
 
 
 /************* MQTT TOPICS (change these topics as you wish)  **************************/
-const char* light_state_topic = "home/LED_KEUKENLAMP";
-const char* light_set_topic = "home/LED_KEUKENLAMP/set";
-const char* light_set_topic_group = "home/LED_KEUKENLAMP/set";
+const char* light_state_topic = "home/LED_WoonkamerLAMP";
+const char* light_set_topic = "home/LED_WoonkamerLAMP/set";
+const char* light_set_topic_group = "home/LED_WoonkamerLAMP/set";
 
 const char* on_cmd = "ON";
 const char* off_cmd = "OFF";
@@ -66,11 +65,11 @@ const int BUFFER_SIZE = JSON_OBJECT_SIZE(10);
 
 
 /*********************************** FastLED Defintions ********************************/
-#define NUM_LEDS    4
+#define NUM_LEDS    200
 #define DATA_PIN    4
 //#define CLOCK_PIN 5
 #define CHIPSET     WS2812
-#define COLOR_ORDER BRG
+#define COLOR_ORDER RGB
 
 byte realRed = 0;
 byte realGreen = 0;
