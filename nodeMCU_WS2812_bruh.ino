@@ -8,17 +8,22 @@
 
   Thanks much to @corbanmailloux for providing a great framework for implementing flash/fade with HomeAssistant https://github.com/corbanmailloux/esp-mqtt-rgb-led
   
-  To use this code you will need the following dependancies: 
-  
-  - Support for the ESP8266 boards. 
-        - You can add it to the board manager by going to File -> Preference and pasting http://arduino.esp8266.com/stable/package_esp8266com_index.json into the Additional Board Managers URL field.
-        - Next, download the ESP8266 dependancies by going to Tools -> Board -> Board Manager and searching for ESP8266 and installing it.
-  
+
   - You will also need to download the follow libraries by going to Sketch -> Include Libraries -> Manage Libraries
       - FastLED 
       - PubSubClient
       - ArduinoJSON
 */
+//Eerste gedeelte is voor een PIR Sensor//
+
+// INCLUDING PIR SENSOR,   IF ON, THEN Rainbow
+
+int motionPin = 2;
+int interval = 10000; // 10 seconden
+unsigned long prevMillis = 0;
+
+//Einde PIR//
+
 
 #define FASTLED_INTERRUPT_RETRY_COUNT 0
 
@@ -32,25 +37,25 @@
 
 /************ WIFI and MQTT Information (CHANGE THESE FOR YOUR SETUP) ******************/
 
-const char* ssid = "ASUS_MQTT_2.4GHZ"; //type your WIFI information inside the quotes
-const char* password = "AlL3Shi3RIsEcHt100%G3HeIm!";
-const char* mqtt_server = "192.168.2.175";
-const char* mqtt_username = "openhabian";
-const char* mqtt_password = "100%Volkswagen";
+const char* ssid = ""; //type your WIFI information inside the quotes
+const char* password = "";
+const char* mqtt_server = "";
+const char* mqtt_username = "";
+const char* mqtt_password = "";
 const int mqtt_port = 1883;
 
 /**************************** FOR OTA **************************************************/
-#define SENSORNAME "LED_WoonkamerLAMP" //change this to whatever you want to call your device
+#define SENSORNAME "LED_Gang_lamp" //change this to whatever you want to call your device
 
-#define OTApassword "100%Volkswagen" //the password you will need to enter to upload remotely via the ArduinoIDE
-int OTAport = 8266;
+#define OTApassword "" //the password you will need to enter to upload remotely via the ArduinoIDE
+int OTAport = ;
 
 
 
 /************* MQTT TOPICS (change these topics as you wish)  **************************/
-const char* light_state_topic = "home/LED_WoonkamerLAMP";
-const char* light_set_topic = "home/LED_WoonkamerLAMP/set";
-const char* light_set_topic_group = "home/LED_WoonkamerLAMP/set";
+const char* light_state_topic = "home/LED_Gang_lamp";
+const char* light_set_topic = "home/LED_Gang_lamp/set";
+const char* light_set_topic_group = "home/LED_Gang_lamp/set";
 
 const char* on_cmd = "ON";
 const char* off_cmd = "OFF";
@@ -106,7 +111,7 @@ byte flashBrightness = brightness;
 
 
 /********************************** GLOBALS for EFFECTS ******************************/
-//RAINBOW
+//RAINBOW 
 uint8_t thishue = 0;                                          // Starting hue value.
 uint8_t deltahue = 10;
 
@@ -179,7 +184,10 @@ struct CRGB leds[NUM_LEDS];
 void setup() {
   Serial.begin(115200);
   FastLED.addLeds<CHIPSET, DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS);
-
+  
+  //PIR SENSOR SETUP
+  pinMode(motionPin, INPUT);     // stel de motionPin in als input pin
+  
   setupStripedPalette( CRGB::Red, CRGB::Red, CRGB::White, CRGB::White); //for CANDY CANE
   gPal = HeatColors_p; //for FIRE
 
@@ -496,7 +504,28 @@ void loop() {
     return;
   }
 
+//Start PIR Sensor
 
+int val = digitalRead(motionPin);  // lees de waarde van de sensor
+  unsigned long currentMillis = millis();
+  if (val == HIGH) {            // is de waarde van de sensor hoog?
+    prevMillis = currentMillis; // dan 'reset' de timer
+    //digitalWrite(DATA_PIN, HIGH); // zet de DATA_PIN hoog, zodat de LED strip aan gaat
+    
+    static uint8_t starthue = 0;    thishue++;
+    fill_rainbow(leds, NUM_LEDS, thishue, deltahue);
+        if (transitionTime == 0 or transitionTime == NULL) {
+          transitionTime = 130;
+    }
+    showleds();
+  
+  }
+
+  if ((millis()-prevMillis) >= interval){ // als er 10 seconden zijn verstreken
+    digitalWrite(DATA_PIN, LOW); // zet dan de ledPin laag, zodat de LED strip uit gaat.
+  }
+
+//Einde PIR Sensor
 
   client.loop();
 
